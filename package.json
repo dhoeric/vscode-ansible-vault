@@ -22,7 +22,7 @@
         "ansibleVault.keypass": {
           "type": "string",
           "default": "",
-          "description": "ansible-vault password string"
+          "description": "ansible-vault password text"
         },
         "ansibleVault.keyfile": {
           "type": "string",
