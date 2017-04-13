@@ -4,9 +4,19 @@
   "description": "VS Code package to encrypt decrypt ansible-vault file",
   "version": "0.0.1",
   "publisher": "dhoeric",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dhoeric/vscode-ansible-vault.git"
+  },
   "engines": {
     "vscode": "^1.11.0"
   },
+  "keywords": [
+  	"ansible",
+	"ansible-vault",
+	"encrypt",
+	"decrypt"
+  ],
   "categories": [
     "Other"
   ],
