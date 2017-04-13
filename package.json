@@ -36,7 +36,12 @@
         "command": "extension.ansibleVault",
         "title": "Encrypt/Decrypt with ansible-vault"
       }
-    ]
+    ],
+    "keybindings": [{
+      "command": "extension.ansibleVault",
+      "key": "ctrl+alt+0",
+      "when": "editorTextFocus"
+    }]
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
