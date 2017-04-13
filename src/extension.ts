@@ -45,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
         if (keypath ==  "") {
-            let pass = config.keypass;
+            pass = config.keypass;
 
             if (pass == "") {
                 await vscode.window.showInputBox({prompt: "Enter the ansible-vault keypass: "}).then((val) => {
@@ -68,7 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
             decrypt(doc.fileName, keypath);
         }
 
-        if ( !pass && keypath != "" ) {
+        if ( pass != "" && keypath != "" ) {
             exec(`rm -f ${keypath}`);
         }
     };
