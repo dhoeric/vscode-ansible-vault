@@ -1,0 +1,59 @@
+{
+  "name": "ansible-vault",
+  "displayName": "ansible-vault",
+  "description": "VS Code package to encrypt decrypt ansible-vault file",
+  "version": "0.0.1",
+  "publisher": "dhoeric",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.ansibleVault"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "ansible-vault configuration",
+      "properties": {
+        "ansibleVault.keypass": {
+          "type": "string",
+          "default": "",
+          "description": "ansible-vault password string"
+        },
+        "ansibleVault.keyfile": {
+          "type": "string",
+          "default": "",
+          "description": "ansible-vault password file path"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "extension.ansibleVault",
+        "title": "Encrypt/Decrypt with ansible-vault"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0",
+    "mocha": "^2.3.3",
+    "@types/node": "^6.0.40",
+    "@types/mocha": "^2.2.32"
+  },
+  "dependencies": {
+    "expand-tilde": "^2.0.2",
+    "tilde-expansion": "0.0.0",
+    "tmp": "0.0.31"
+  }
+}
