@@ -9,19 +9,8 @@ import * as child_process from 'child_process';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "ansible-vault" is now active!');
-
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with  registerCommand
-    // The commandId parameter must match the command field in package.json
     var toggleEncrypt = async () => {
-        // Display a message box to the user
         let config = vscode.workspace.getConfiguration('ansibleVault');
-
-        // Check file type and content if related to ansible vault
         let editor = vscode.window.activeTextEditor;
         if ( !editor ) {
             return;
@@ -62,10 +51,10 @@ export function activate(context: vscode.ExtensionContext) {
         // Go encrypt / decrypt
         let fileType = await checkFileType(doc.fileName);
         if ( fileType == "plaintext" ) {
-            encrypt(doc.fileName, keypath);
+            encrypt(doc.fileName, keypath, config);
         }
         else if ( fileType == "encrypted" ) {
-            decrypt(doc.fileName, keypath);
+            decrypt(doc.fileName, keypath, config);
         }
 
         if ( pass != "" && keypath != "" ) {
@@ -93,19 +82,21 @@ let checkFileType = async(f) => {
     return 'plaintext';
 }
 
-let encrypt = (f, pass) => {
+let encrypt = (f, pass, config) => {
     console.log("Encrypt: " + f);
 
-    let cmd = `ansible-vault encrypt ${f} --vault-password-file=${pass}`;
+    let bin = `${config.binpath}/ansible-vault`;
+    let cmd = `${bin} encrypt ${f} --vault-password-file=${pass}`;
     exec(cmd);
 
     vscode.window.showInformationMessage(`${f} encrypted`);
 }
 
-let decrypt = (f, pass) => {
+let decrypt = (f, pass, config) => {
     console.log("Decrypt: " + f);
 
-    let cmd = `ansible-vault decrypt ${f} --vault-password-file=${pass}`;
+    let bin = `${config.binpath}/ansible-vault`;
+    let cmd = `${bin} decrypt ${f} --vault-password-file=${pass}`;
     exec(cmd);
 
     vscode.window.showInformationMessage(`${f} decrypted`);

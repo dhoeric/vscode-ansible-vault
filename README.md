@@ -19,5 +19,6 @@ _inspired by https://github.com/sydro/atom-ansible-vault_
 
 This extension contributes the following settings:
 
+* `ansibleVault.binpath`: Ansible-vault binary path (e.g. `/usr/local/bin/`)
 * `ansibleVault.keypass`: Ansible-vault password text (e.g. `GT6rAP7rxYzeFC1KtHVW`)
 * `ansibleVault.keyfile`: Ansible-vault password file path (e.g. `~/.vault-pass.txt`)
