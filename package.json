@@ -2,7 +2,7 @@
   "name": "ansible-vault",
   "displayName": "ansible-vault",
   "description": "Encrypt/decrypt ansible-vault file",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "dhoeric",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
       "properties": {
         "ansibleVault.executable": {
           "type": "string",
-          "default": "/usr/local/bin/ansible-vault",
+          "default": "ansible-vault",
           "description": "Full path of ansible-vault executable"
         },
         "ansibleVault.keypass": {
