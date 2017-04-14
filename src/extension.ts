@@ -85,8 +85,7 @@ let checkFileType = async(f) => {
 let encrypt = (f, pass, config) => {
     console.log("Encrypt: " + f);
 
-    let bin = `${config.binpath}/ansible-vault`;
-    let cmd = `${bin} encrypt ${f} --vault-password-file=${pass}`;
+    let cmd = `${config.executable} encrypt ${f} --vault-password-file=${pass}`;
     exec(cmd);
 
     vscode.window.showInformationMessage(`${f} encrypted`);
@@ -95,8 +94,7 @@ let encrypt = (f, pass, config) => {
 let decrypt = (f, pass, config) => {
     console.log("Decrypt: " + f);
 
-    let bin = `${config.binpath}/ansible-vault`;
-    let cmd = `${bin} decrypt ${f} --vault-password-file=${pass}`;
+    let cmd = `${config.executable} decrypt ${f} --vault-password-file=${pass}`;
     exec(cmd);
 
     vscode.window.showInformationMessage(`${f} decrypted`);
