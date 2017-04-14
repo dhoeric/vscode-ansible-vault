@@ -1,7 +1,7 @@
 {
   "name": "ansible-vault",
   "displayName": "ansible-vault",
-  "description": "VS Code package to encrypt decrypt ansible-vault file",
+  "description": "Encrypt/decrypt ansible-vault file",
   "version": "0.0.1",
   "publisher": "dhoeric",
   "repository": {
