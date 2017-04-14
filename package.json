@@ -2,7 +2,7 @@
   "name": "ansible-vault",
   "displayName": "ansible-vault",
   "description": "Encrypt/decrypt ansible-vault file",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "dhoeric",
   "repository": {
     "type": "git",
@@ -29,6 +29,11 @@
       "type": "object",
       "title": "ansible-vault configuration",
       "properties": {
+        "ansibleVault.binpath": {
+          "type": "string",
+          "default": "/usr/local/bin/",
+          "description": "ansible-vault binary path"
+        },
         "ansibleVault.keypass": {
           "type": "string",
           "default": "",
