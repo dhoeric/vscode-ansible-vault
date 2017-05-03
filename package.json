@@ -2,7 +2,7 @@
   "name": "ansible-vault",
   "displayName": "ansible-vault",
   "description": "Encrypt/decrypt ansible-vault file",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "dhoeric",
   "repository": {
     "type": "git",
