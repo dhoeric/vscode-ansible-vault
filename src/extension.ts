@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         let doc = editor.document;
-        if ( doc.languageId != "yaml" ) {
+        if ( ! (doc.languageId == "yaml" || doc.languageId == "ansible") ) {
             return;
         }
 
