@@ -18,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         let doc = editor.document;
         if ( ! (doc.languageId == "yaml" || doc.languageId == "ansible") ) {
+            vscode.window.showErrorMessage(`ansible-vaule: Only parse file with Language Mode: "YAML", "ansible"`);
             return;
         }
 
