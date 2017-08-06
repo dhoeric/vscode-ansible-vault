@@ -16,13 +16,6 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        let doc = editor.document;
-        if ( ! (doc.languageId == "yaml" || doc.languageId == "ansible") ) {
-            vscode.window.showErrorMessage(`ansible-vaule: Only parse file with Language Mode: "YAML", "ansible"`);
-            return;
-        }
-
-
         // Get password
         let keypath = "";
         let pass = "";
@@ -50,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
         // Go encrypt / decrypt
+        let doc = editor.document;
         let fileType = await checkFileType(doc.fileName);
         if ( fileType == "plaintext" ) {
             encrypt(doc.fileName, keypath, config);
