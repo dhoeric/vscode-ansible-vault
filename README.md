@@ -1,4 +1,5 @@
 # VSCode ansible-vault extension
+[![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/d/dhoeric.ansible-vault.svg)](https://marketplace.visualstudio.com/items?itemName=dhoeric.ansible-vault)
 
 VSCode extensions to encrypt/decrypt ansible-vault file
 
