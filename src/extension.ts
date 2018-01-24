@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import * as tilde from 'tilde-expansion';
 import * as tmp from 'tmp';
 import * as child_process from 'child_process';
+import * as util from './util';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -19,26 +20,32 @@ export function activate(context: vscode.ExtensionContext) {
     // Get password
     let keypath = "";
     let pass = "";
-    let tmpFileObj = '';
-    if (config.keyfile != "") {
-      let keyfile = config.keyfile.trim("/");
-      keyfile = keyfile.trim("/");
-      await tilde(keyfile, (s) => { keypath = s; });
-    }
+    let rootPath = vscode.workspace.rootPath;
+    let keyInCfg = util.scanAnsibleCfg(rootPath);
 
+    // Find nothing from ansible.cfg
+    if (!keyInCfg) {
 
-    if (keypath == "") {
-      pass = config.keypass;
-
-      if (pass == "") {
-        await vscode.window.showInputBox({ prompt: "Enter the ansible-vault keypass: " }).then((val) => {
-          pass = val;
-        })
+      if (config.keyfile != "") {
+        let keyfile = config.keyfile.trim("/");
+        keyfile = keyfile.trim("/");
+        await tilde(keyfile, (s) => { keypath = s; });
       }
 
-      keypath = tmp.tmpNameSync();
-      let cmd = `touch ${keypath} && echo "${pass}" > ${keypath}`;
-      exec(cmd);
+      // Need user to input the ansible-vault pass
+      if (keypath == "") {
+        pass = config.keypass;
+
+        if (pass == "") {
+          await vscode.window.showInputBox({ prompt: "Enter the ansible-vault keypass: " }).then((val) => {
+            pass = val;
+          })
+        }
+
+        keypath = tmp.tmpNameSync();
+        let cmd = `touch ${keypath} && echo "${pass}" > ${keypath}`;
+        exec(cmd);
+      }
     }
 
 
@@ -46,10 +53,10 @@ export function activate(context: vscode.ExtensionContext) {
     let doc = editor.document;
     let fileType = await checkFileType(doc.fileName);
     if (fileType == "plaintext") {
-      encrypt(doc.fileName, keypath, config);
+      encrypt(doc.fileName, keyInCfg, keypath, config);
     }
     else if (fileType == "encrypted") {
-      decrypt(doc.fileName, keypath, config);
+      decrypt(doc.fileName, keyInCfg, keypath, config);
     }
 
     if (pass != "" && keypath != "") {
@@ -77,19 +84,27 @@ let checkFileType = async (f) => {
   return 'plaintext';
 }
 
-let encrypt = (f, pass, config) => {
+let encrypt = (f, keyInCfg, pass, config) => {
   console.log("Encrypt: " + f);
 
-  let cmd = `${config.executable} encrypt "${f}" --vault-password-file="${pass}"`;
+  let cmd = `${config.executable} encrypt "${f}"`;
+  // Specify vault-password-file when vault_password_file not in ansible.cfg
+  if (!keyInCfg) {
+    cmd += ` --vault-password-file="${pass}"`;
+  }
   exec(cmd);
 
   vscode.window.showInformationMessage(`${f} encrypted`);
 }
 
-let decrypt = (f, pass, config) => {
+let decrypt = (f, keyInCfg, pass, config) => {
   console.log("Decrypt: " + f);
 
-  let cmd = `${config.executable} decrypt "${f}" --vault-password-file="${pass}"`;
+  let cmd = `${config.executable} decrypt "${f}"`;
+  // Specify vault-password-file when vault_password_file not in ansible.cfg
+  if (!keyInCfg) {
+    cmd += ` --vault-password-file="${pass}"`;
+  }
   exec(cmd);
 
   vscode.window.showInformationMessage(`${f} decrypted`);
