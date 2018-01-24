@@ -29,7 +29,7 @@ export function scanAnsibleCfg(rootPath) {
       // key: defaults.vault_password_file
       if (cfg.defaults != null && cfg.defaults.vault_password_file != null) {
         console.log(`Found vault_password_file: ${cfg.defaults.vault_password_file}`)
-        return true;
+        return cfgPath;
       }
     }
   }

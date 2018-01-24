@@ -23,9 +23,11 @@ export function activate(context: vscode.ExtensionContext) {
     let rootPath = vscode.workspace.rootPath;
     let keyInCfg = util.scanAnsibleCfg(rootPath);
 
-    // Find nothing from ansible.cfg
-    if (!keyInCfg) {
-
+    if ( keyInCfg != false ) {
+      vscode.window.showInformationMessage(`Getting vault keyfile from ${keyInCfg}`);
+    }
+    else {
+      // Find nothing from ansible.cfg
       if (config.keyfile != "") {
         let keyfile = config.keyfile.trim("/");
         keyfile = keyfile.trim("/");
