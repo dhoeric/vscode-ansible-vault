@@ -12,7 +12,7 @@
     "vscode": "^1.11.0"
   },
   "keywords": [
-  	"ansible",
+    "ansible",
     "ansible-vault",
     "encrypt",
     "decrypt"
@@ -52,11 +52,13 @@
         "title": "Encrypt/Decrypt with ansible-vault"
       }
     ],
-    "keybindings": [{
-      "command": "extension.ansibleVault",
-      "key": "ctrl+alt+0",
-      "when": "editorTextFocus"
-    }]
+    "keybindings": [
+      {
+        "command": "extension.ansibleVault",
+        "key": "ctrl+alt+0",
+        "when": "editorTextFocus"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",
@@ -73,6 +75,7 @@
   },
   "dependencies": {
     "expand-tilde": "^2.0.2",
+    "node-ini": "^1.0.0",
     "tilde-expansion": "0.0.0",
     "tmp": "0.0.31"
   }

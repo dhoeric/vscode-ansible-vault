@@ -9,95 +9,95 @@ import * as child_process from 'child_process';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    var toggleEncrypt = async () => {
-        let config = vscode.workspace.getConfiguration('ansibleVault');
-        let editor = vscode.window.activeTextEditor;
-        if ( !editor ) {
-            return;
-        }
+  var toggleEncrypt = async () => {
+    let config = vscode.workspace.getConfiguration('ansibleVault');
+    let editor = vscode.window.activeTextEditor;
+    if (!editor) {
+      return;
+    }
 
-        // Get password
-        let keypath = "";
-        let pass = "";
-        let tmpFileObj = '';
-        if (config.keyfile != "") {
-            let keyfile = config.keyfile.trim("/");
-            keyfile = keyfile.trim("/");
-            await tilde(keyfile, (s) => { keypath = s; });
-        }
-
-
-        if (keypath ==  "") {
-            pass = config.keypass;
-
-            if (pass == "") {
-                await vscode.window.showInputBox({prompt: "Enter the ansible-vault keypass: "}).then((val) => {
-                    pass = val;
-                })
-            }
-
-            keypath = tmp.tmpNameSync();
-            let cmd = `touch ${keypath} && echo "${pass}" > ${keypath}`;
-            exec(cmd);
-        }
+    // Get password
+    let keypath = "";
+    let pass = "";
+    let tmpFileObj = '';
+    if (config.keyfile != "") {
+      let keyfile = config.keyfile.trim("/");
+      keyfile = keyfile.trim("/");
+      await tilde(keyfile, (s) => { keypath = s; });
+    }
 
 
-        // Go encrypt / decrypt
-        let doc = editor.document;
-        let fileType = await checkFileType(doc.fileName);
-        if ( fileType == "plaintext" ) {
-            encrypt(doc.fileName, keypath, config);
-        }
-        else if ( fileType == "encrypted" ) {
-            decrypt(doc.fileName, keypath, config);
-        }
+    if (keypath == "") {
+      pass = config.keypass;
 
-        if ( pass != "" && keypath != "" ) {
-            exec(`rm -f ${keypath}`);
-        }
-    };
+      if (pass == "") {
+        await vscode.window.showInputBox({ prompt: "Enter the ansible-vault keypass: " }).then((val) => {
+          pass = val;
+        })
+      }
 
-    let disposable = vscode.commands.registerCommand('extension.ansibleVault', toggleEncrypt);
-    context.subscriptions.push(disposable);
+      keypath = tmp.tmpNameSync();
+      let cmd = `touch ${keypath} && echo "${pass}" > ${keypath}`;
+      exec(cmd);
+    }
+
+
+    // Go encrypt / decrypt
+    let doc = editor.document;
+    let fileType = await checkFileType(doc.fileName);
+    if (fileType == "plaintext") {
+      encrypt(doc.fileName, keypath, config);
+    }
+    else if (fileType == "encrypted") {
+      decrypt(doc.fileName, keypath, config);
+    }
+
+    if (pass != "" && keypath != "") {
+      exec(`rm -f ${keypath}`);
+    }
+  };
+
+  let disposable = vscode.commands.registerCommand('extension.ansibleVault', toggleEncrypt);
+  context.subscriptions.push(disposable);
 }
 
 // Check YAML file content
 // start with '$ANSIBLE_VAULT' -> 'decrypt'
 // others -> 'encrypt'
-let checkFileType = async(f) => {
-    let content = '';
-    await vscode.workspace.openTextDocument(f).then((document) => {
-        content = document.getText();
-    });
+let checkFileType = async (f) => {
+  let content = '';
+  await vscode.workspace.openTextDocument(f).then((document) => {
+    content = document.getText();
+  });
 
-    if ( content.indexOf("$ANSIBLE_VAULT") == 0 ) {
-        return 'encrypted';
-    }
+  if (content.indexOf("$ANSIBLE_VAULT") == 0) {
+    return 'encrypted';
+  }
 
-    return 'plaintext';
+  return 'plaintext';
 }
 
 let encrypt = (f, pass, config) => {
-    console.log("Encrypt: " + f);
+  console.log("Encrypt: " + f);
 
-    let cmd = `${config.executable} encrypt "${f}" --vault-password-file="${pass}"`;
-    exec(cmd);
+  let cmd = `${config.executable} encrypt "${f}" --vault-password-file="${pass}"`;
+  exec(cmd);
 
-    vscode.window.showInformationMessage(`${f} encrypted`);
+  vscode.window.showInformationMessage(`${f} encrypted`);
 }
 
 let decrypt = (f, pass, config) => {
-    console.log("Decrypt: " + f);
+  console.log("Decrypt: " + f);
 
-    let cmd = `${config.executable} decrypt "${f}" --vault-password-file="${pass}"`;
-    exec(cmd);
+  let cmd = `${config.executable} decrypt "${f}" --vault-password-file="${pass}"`;
+  exec(cmd);
 
-    vscode.window.showInformationMessage(`${f} decrypted`);
+  vscode.window.showInformationMessage(`${f} decrypted`);
 }
 
 let exec = (cmd) => {
-    console.log(`> ${cmd}`);
-    let stdout = child_process.execSync(cmd, {});
+  console.log(`> ${cmd}`);
+  let stdout = child_process.execSync(cmd, {});
 }
 
 // this method is called when your extension is deactivated
