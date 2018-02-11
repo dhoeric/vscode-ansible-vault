@@ -30,15 +30,7 @@ export function scanAnsibleCfg(rootPath) {
       // key: defaults.vault_password_file
       if (cfg.defaults != null && cfg.defaults.vault_password_file != null) {
         console.log(`Found ansible.cfg from ${cfgPath} contain defaults.vault_password_file`);
-        let vault_password_file = expandTilde(cfg.defaults.vault_password_file);
-        if (fs.existsSync(vault_password_file)) {
-          console.log(`and ${vault_password_file} is exists`);
-          return cfgPath;
-        }
-        else {
-          vscode.window.showErrorMessage(`'${vault_password_file}' specified in defaults.vault_password_file of '${cfgPath}' is not exist.`);
-          return false;
-        }
+        return cfgPath;
       }
     }
   }
