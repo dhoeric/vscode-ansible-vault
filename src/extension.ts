@@ -55,10 +55,10 @@ export function activate(context: vscode.ExtensionContext) {
     let doc = editor.document;
     let fileType = await checkFileType(doc.fileName);
     if (fileType == "plaintext") {
-      encrypt(doc.fileName, keyInCfg, keypath, config);
+      encrypt(doc.fileName, rootPath, keyInCfg, keypath, config);
     }
     else if (fileType == "encrypted") {
-      decrypt(doc.fileName, keyInCfg, keypath, config);
+      decrypt(doc.fileName, rootPath, keyInCfg, keypath, config);
     }
 
     if (pass != "" && keypath != "") {
@@ -86,7 +86,7 @@ let checkFileType = async (f) => {
   return 'plaintext';
 }
 
-let encrypt = (f, keyInCfg, pass, config) => {
+let encrypt = (f, rootPath, keyInCfg, pass, config) => {
   console.log("Encrypt: " + f);
 
   let cmd = `${config.executable} encrypt "${f}"`;
@@ -94,12 +94,14 @@ let encrypt = (f, keyInCfg, pass, config) => {
   if (!keyInCfg) {
     cmd += ` --vault-password-file="${pass}"`;
   }
-  exec(cmd);
+  exec(cmd, {
+    cwd: rootPath
+  });
 
   vscode.window.showInformationMessage(`${f} encrypted`);
 }
 
-let decrypt = (f, keyInCfg, pass, config) => {
+let decrypt = (f, rootPath, keyInCfg, pass, config) => {
   console.log("Decrypt: " + f);
 
   let cmd = `${config.executable} decrypt "${f}"`;
@@ -107,14 +109,16 @@ let decrypt = (f, keyInCfg, pass, config) => {
   if (!keyInCfg) {
     cmd += ` --vault-password-file="${pass}"`;
   }
-  exec(cmd);
+  exec(cmd, {
+    cwd: rootPath
+  });
 
   vscode.window.showInformationMessage(`${f} decrypted`);
 }
 
-let exec = (cmd) => {
+let exec = (cmd, opt={}) => {
   console.log(`> ${cmd}`);
-  let stdout = child_process.execSync(cmd, {});
+  let stdout = child_process.execSync(cmd, opt);
 }
 
 // this method is called when your extension is deactivated
