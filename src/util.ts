@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as expandTilde from 'expand-tilde';
 import * as ini from 'node-ini';
 
-export function scanAnsibleCfg(rootPath) {
+export function scanAnsibleCfg( rootPath=undefined ) {
   console.log(`here is util.read_cfg()`);
   /*
   * Reading order:
@@ -14,12 +14,14 @@ export function scanAnsibleCfg(rootPath) {
   * 4) /etc/ansible.cfg
   */
   let cfgFiles = [
-    `${rootPath}/ansible.cfg`,
     `~/.ansible.cfg`,
     `/etc/ansible.cfg`
   ]
+  if (rootPath != undefined) {
+    cfgFiles.unshift( `${rootPath}/ansible.cfg` );
+  }
   if (process.env.ANSIBLE_CONFIG != null) {
-    cfgFiles.unshift(process.env.ANSIBLE_CONFIG);
+    cfgFiles.unshift( process.env.ANSIBLE_CONFIG );
   }
 
   for (let i in cfgFiles) {
