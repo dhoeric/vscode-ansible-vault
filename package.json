@@ -15,7 +15,8 @@
     "ansible",
     "ansible-vault",
     "encrypt",
-    "decrypt"
+    "decrypt",
+    "multi-root ready"
   ],
   "categories": [
     "Other"
