@@ -4,6 +4,8 @@ All notable changes to the "ansible-vault" extension will be documented in this 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [Unreleased]
+### Added
+- Support multi-root workspace API [#12](https://github.com/dhoeric/vscode-ansible-vault/issues/12)
 
 ## [0.1.1]
 ### Fixed
