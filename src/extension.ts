@@ -13,6 +13,7 @@ export function activate(context: vscode.ExtensionContext) {
   var toggleEncrypt = async () => {
     let config = vscode.workspace.getConfiguration('ansibleVault');
     let editor = vscode.window.activeTextEditor;
+    let doc = editor.document;
     if (!editor) {
       return;
     }
@@ -20,7 +21,19 @@ export function activate(context: vscode.ExtensionContext) {
     // Get password
     let keypath = "";
     let pass = "";
+
+    // Get rootPath based on multi-workspace API
     let rootPath = vscode.workspace.rootPath;
+    if ( vscode.workspace.getWorkspaceFolder ) {
+      let workspaceFolder = vscode.workspace.getWorkspaceFolder(editor.document.uri);
+      if ( workspaceFolder == undefined ) { // not under any workspace
+        rootPath = undefined;
+      }
+      else {
+        rootPath = workspaceFolder.uri.path;
+      }
+    }
+
     let keyInCfg = util.scanAnsibleCfg(rootPath);
 
     if ( keyInCfg != false ) {
@@ -52,7 +65,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     // Go encrypt / decrypt
-    let doc = editor.document;
     let fileType = await checkFileType(doc.fileName);
     if (fileType == "plaintext") {
       encrypt(doc.fileName, rootPath, keyInCfg, keypath, config);
@@ -94,9 +106,12 @@ let encrypt = (f, rootPath, keyInCfg, pass, config) => {
   if (!keyInCfg) {
     cmd += ` --vault-password-file="${pass}"`;
   }
-  exec(cmd, {
-    cwd: rootPath
-  });
+
+  if ( rootPath != undefined ) {
+    exec(cmd, { cwd: rootPath });
+  } else {
+    exec(cmd);
+  }
 
   vscode.window.showInformationMessage(`${f} encrypted`);
 }
@@ -109,9 +124,12 @@ let decrypt = (f, rootPath, keyInCfg, pass, config) => {
   if (!keyInCfg) {
     cmd += ` --vault-password-file="${pass}"`;
   }
-  exec(cmd, {
-    cwd: rootPath
-  });
+
+  if ( rootPath != undefined ) {
+    exec(cmd, { cwd: rootPath });
+  } else {
+    exec(cmd);
+  }
 
   vscode.window.showInformationMessage(`${f} decrypted`);
 }

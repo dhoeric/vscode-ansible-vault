@@ -9,13 +9,14 @@
     "url": "https://github.com/dhoeric/vscode-ansible-vault.git"
   },
   "engines": {
-    "vscode": "^1.11.0"
+    "vscode": "^1.15.0"
   },
   "keywords": [
     "ansible",
     "ansible-vault",
     "encrypt",
-    "decrypt"
+    "decrypt",
+    "multi-root ready"
   ],
   "categories": [
     "Other"
