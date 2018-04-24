@@ -23,10 +23,10 @@ export function scanAnsibleCfg( rootPath=undefined ) {
   if (process.env.ANSIBLE_CONFIG != null) {
     cfgFiles.unshift( process.env.ANSIBLE_CONFIG );
   }
-
-  console.log(cfgPath);
-  for (let i in cfgFiles) {
-    let cfgPath = expandTilde(cfgFiles[i]);
+  var arrayLength = cfgFiles.length;
+  for (var i = 0; i < arrayLength; i++)  {
+    let cfgFile = cfgFiles[i]
+    let cfgPath = expandTilde(cfgFile);
 
     let cfg = getValueByCfg(cfgPath);
     if (cfg != "") {
