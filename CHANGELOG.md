@@ -5,6 +5,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.3]
+- Fix file-path issue, thanks @marcelhekking [#19](https://github.com/dhoeric/vscode-ansible-vault/pull/19)
+
 ## [0.1.2]
 ### Added
 - Support multi-root workspace API [#12](https://github.com/dhoeric/vscode-ansible-vault/issues/12)
