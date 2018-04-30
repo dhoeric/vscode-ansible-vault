@@ -24,8 +24,9 @@ export function scanAnsibleCfg( rootPath=undefined ) {
     cfgFiles.unshift( process.env.ANSIBLE_CONFIG );
   }
 
-  for (let i in cfgFiles) {
-    let cfgPath = expandTilde(cfgFiles[i]);
+  for (let i = 0; i < cfgFiles.length; i++)  {
+    let cfgFile = cfgFiles[i];
+    let cfgPath = expandTilde(cfgFile);
 
     let cfg = getValueByCfg(cfgPath);
     if (cfg != "") {
