@@ -1,11 +1,18 @@
 # VSCode ansible-vault extension
 [![Visual Studio Marketplace](https://img.shields.io/vscode-marketplace/d/dhoeric.ansible-vault.svg)](https://marketplace.visualstudio.com/items?itemName=dhoeric.ansible-vault)
 
+## Encrypt/Decrypt file
+
 VSCode extensions to encrypt/decrypt ansible-vault file, can toggle with <kbd>ctrl+alt+0</kbd>
 _inspired by https://github.com/sydro/atom-ansible-vault_
 
 ![Encryption demo](images/demo.gif)
 
+## Encrypt/Decrypt string (inline)
+
+* Select text you want to encrypt/decrypt and press <kbd>ctrl+alt+1</kbd>
+
+![Encryption demo2](images/inline_demo.gif)
 
 ## Usage
 To read vault password file in your computer, you can specify the `vault_password_file` in ansible.cfg or through [extension settings](#extension-settings).
