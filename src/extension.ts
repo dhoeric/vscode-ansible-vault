@@ -181,7 +181,7 @@ let encryptString = (str: string, keyInCfg: boolean, pass: string, config: any) 
   let cmd = `echo '${str}' | ${config.executable} encrypt_string -`;
   // Specify vault-password-file when vault_password_file not in ansible.cfg
   if (!keyInCfg) {
-    cmd += ` --vault-id="${pass}"`;
+    cmd += ` --vault-password-file="${pass}"`;
   }
   return exec(cmd).trim()
 }
