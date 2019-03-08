@@ -48,7 +48,7 @@
         "ansibleVault.preferconfig": {
           "type": "boolean",
           "default": false
-        },
+        }
       }
     },
     "commands": [
