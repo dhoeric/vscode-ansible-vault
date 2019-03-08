@@ -44,7 +44,11 @@
           "type": "string",
           "default": "",
           "description": "ansible-vault password file path"
-        }
+        },
+        "ansibleVault.preferconfig": {
+          "type": "boolean",
+          "default": false
+        },
       }
     },
     "commands": [

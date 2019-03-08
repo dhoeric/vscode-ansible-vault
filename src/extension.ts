@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     let keyInCfg = util.scanAnsibleCfg(rootPath);
 
-    if ( keyInCfg != false ) {
+    if ( keyInCfg != false && config.preferconfig != false ) {
       vscode.window.showInformationMessage(`Getting vault keyfile from ${keyInCfg}`);
     }
     else {

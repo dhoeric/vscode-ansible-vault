@@ -23,3 +23,4 @@ This extension contributes the following settings:
 * `ansibleVault.executable`: Full path of ansible-vault executable (e.g. `/usr/local/bin/ansible-vault`)
 * `ansibleVault.keyfile`: Ansible-vault password file path (e.g. `~/.vault-pass.txt`)
 * `ansibleVault.keypass`: Ansible-vault password text (e.g. `GT6rAP7rxYzeFC1KtHVW`)
+* `ansibleVault.preferconfig`: Ansible-vault prefer user config over `ansible.cfg` boolean (e.g. `false`)
