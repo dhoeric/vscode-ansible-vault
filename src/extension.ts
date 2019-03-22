@@ -52,9 +52,11 @@ export function activate(context: vscode.ExtensionContext) {
         pass = config.keypass;
 
         if (pass == "") {
-          await vscode.window.showInputBox({ prompt: "Enter the ansible-vault keypass: " }).then((val) => {
-            pass = val;
-          })
+          pass = await vscode.window.showInputBox({ prompt: "Enter the ansible-vault keypass: " })
+
+          if (typeof pass === 'undefined') {
+            return
+          }
         }
 
         keypath = tmp.tmpNameSync();
