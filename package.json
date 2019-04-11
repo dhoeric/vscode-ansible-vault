@@ -22,7 +22,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.ansibleVault"
+    "onCommand:extension.ansibleVault",
+    "onCommand:extension.toggleStringEncryption"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -51,6 +52,10 @@
       {
         "command": "extension.ansibleVault",
         "title": "Encrypt/Decrypt with ansible-vault"
+      },
+      {
+        "command": "extension.toggleStringEncryption",
+        "title": "Encrypt/Decrypt String with ansible-vault"
       }
     ],
     "keybindings": [
@@ -58,6 +63,11 @@
         "command": "extension.ansibleVault",
         "key": "ctrl+alt+0",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.toggleStringEncryption",
+        "key": "ctrl+alt+1",
+        "when": "editorHasSelection"
       }
     ]
   },
@@ -68,11 +78,11 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
-    "typescript": "^2.0.3",
-    "vscode": "^1.0.0",
-    "mocha": "^2.3.3",
+    "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
-    "@types/mocha": "^2.2.32"
+    "mocha": "^2.3.3",
+    "typescript": "^2.0.3",
+    "vscode": "^1.1.18"
   },
   "dependencies": {
     "expand-tilde": "^2.0.2",
