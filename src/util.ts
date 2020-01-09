@@ -12,10 +12,12 @@ export function scanAnsibleCfg( rootPath=undefined ) {
   * 2) ansible.cfg (in current workspace)
   * 3) ~/.ansible.cfg
   * 4) /etc/ansible.cfg
+  * 5) /etc/ansible/ansible.cfg
   */
   let cfgFiles = [
     `~/.ansible.cfg`,
-    `/etc/ansible.cfg`
+    `/etc/ansible.cfg`,
+    `/etc/ansible/ansible.cfg`
   ]
   if (rootPath != undefined) {
     cfgFiles.unshift( `${rootPath}/ansible.cfg` );
